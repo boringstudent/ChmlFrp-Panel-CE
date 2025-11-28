@@ -1,6 +1,8 @@
-# chmlfrp-panel-v3
+# chmlfrp-panel-CE
 
-ChmlFrp-Panel-v3 版本前端完全开源，为确保安全，我们的后端不开源。
+ChmlFrp-Panel-社区版
+
+官方站点：https://panel.chmlfrp.cn/
 
 ## Project setup
 
