@@ -18,6 +18,17 @@
                             TechCat-Team/ChmlFrp-Panel-v3
                         </n-button>
                     </div>
+                    <div class="repo-name" style="margin-top: 8px">
+                        <n-button
+                            class="repo-name"
+                            text
+                            tag="a"
+                            href="https://github.com/boringstudent/ChmlFrp-Panel-CE"
+                            target="_blank"
+                        >
+                            boringstudent/ChmlFrp-Panel-CE (第三方修改版)
+                        </n-button>
+                    </div>
                     <div class="license-name">Apache License 2.0</div>
                 </div>
             </div>
@@ -78,9 +89,13 @@
             <n-skeleton v-if="loading" :width="247" round :sharp="false" size="small" />
             <n-tag round type="primary" v-else> 最后构建时间：{{ buildTime }} </n-tag>
         </n-flex>
-        <n-p style="opacity: 0.6"> Copyright © {{ currentYear }} 南充市轻爪网络科技有限公司 All rights reserved. </n-p>
+
+        <n-p style="margin-top: 12px; color: #ff4d4f">此面板为第三方修改版本，非官方原版。</n-p>
+
         <n-p style="opacity: 0.6">
-            <a href="https://beian.miit.gov.cn/" target="_blank" style="color: inherit; text-decoration: none;"> 蜀ICP备2025175860号 </a>
+            <a href="https://beian.miit.gov.cn/" target="_blank" style="color: inherit; text-decoration: none">
+                闽ICP备2025107306号
+            </a>
         </n-p>
     </n-card>
     <n-card title="开发环境依赖" style="margin-top: 15px">
@@ -113,9 +128,6 @@ const loading = ref(true);
 // 基础的手机端适配
 const screenStore = useScreenStore();
 const { screenWidth } = storeToRefs(screenStore);
-
-// 获取当前年份
-const currentYear = new Date().getUTCFullYear();
 
 // 定义响应式状态
 const buildTime = ref<string>('');

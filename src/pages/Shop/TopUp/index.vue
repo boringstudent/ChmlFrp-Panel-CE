@@ -141,7 +141,7 @@ onMounted(() => {
     // 检查是否有传入的积分或金额参数
     const pointsParam = route.query.points as string;
     const amountParam = route.query.amount as string;
-    
+
     if (amountParam) {
         // 如果传入了金额，直接使用（确保至少3元）
         const amount = Math.max(parseInt(amountParam) || 0, 3);

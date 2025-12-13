@@ -26,12 +26,8 @@
                     style="width: 200px"
                     :disabled="!selectedCategory"
                 />
-                <n-button type="primary" @click="handleSearch" :loading="loading">
-                    查询
-                </n-button>
-                <n-button @click="handleReset">
-                    重置
-                </n-button>
+                <n-button type="primary" @click="handleSearch" :loading="loading"> 查询 </n-button>
+                <n-button @click="handleReset"> 重置 </n-button>
             </n-space>
         </div>
 
@@ -52,7 +48,18 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, h, computed, watch } from 'vue';
-import { NDataTable, NDatePicker, NSelect, NButton, NSpace, NCard, NTag, NBackTop, useMessage, NTooltip } from 'naive-ui';
+import {
+    NDataTable,
+    NDatePicker,
+    NSelect,
+    NButton,
+    NSpace,
+    NCard,
+    NTag,
+    NBackTop,
+    useMessage,
+    NTooltip,
+} from 'naive-ui';
 import type { DataTableColumns, PaginationProps } from 'naive-ui';
 import api from '@/api';
 import { useUserStore } from '@/stores/user';
@@ -89,7 +96,7 @@ const actionOptions = computed(() => {
     if (!selectedCategory.value) {
         return [];
     }
-    
+
     const actions: Record<string, Array<{ label: string; value: string }>> = {
         account: [
             { label: '登录', value: 'login' },
@@ -111,7 +118,7 @@ const actionOptions = computed(() => {
             { label: '修改免费二级域名', value: 'update_free_subdomain' },
         ],
     };
-    
+
     return actions[selectedCategory.value] || [];
 });
 
@@ -326,7 +333,7 @@ const fetchLogs = async () => {
         }
 
         const response = await api.v2.user.getUserLogs(params);
-        
+
         logs.value = response.data.logs;
         pagination.itemCount = response.data.total;
     } catch (error: any) {

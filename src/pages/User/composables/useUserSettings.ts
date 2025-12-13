@@ -151,10 +151,9 @@ export function createSettingsCards(
         },
         {
             title: '注销账户',
-            subtitle: '注销ChmlFrp账户，删除账户所有信息',
+            subtitle: '注销ChmlFrp-CE账户，删除账户所有信息',
             icon: markRaw(TrashBinOutline),
             click: handlers.showDeleteAccountTips,
         },
     ];
 }
-

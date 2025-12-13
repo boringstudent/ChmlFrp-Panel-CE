@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { useMessage } from 'naive-ui';
-import api from '@/api';
+import axios from 'axios';
 import type { PanelInfo, FriendLink } from '../types';
 
 /**
@@ -19,13 +19,13 @@ export function usePanelInfo() {
     const fetchPanelInfo = async () => {
         loading.value = true;
         try {
-            const response = await api.v2.panel.getPanelInfo();
-            if (response.code === 200) {
+            const response = await axios.get('https://chmlfrp.api.chmlfrp.com/panelinfo');
+            if (response.data.code === 200) {
                 panelInfo.value = {
-                    tunnel_amount: response.data.tunnel_amount.toString(),
-                    node_amount: response.data.node_amount.toString(),
-                    user_amount: response.data.user_amount.toString(),
-                    friend_links: (response.data.friend_links || []).map((links: FriendLink) => ({
+                    tunnel_amount: response.data.data.tunnel_amount.toString(),
+                    node_amount: response.data.data.node_amount.toString(),
+                    user_amount: response.data.data.user_amount.toString(),
+                    friend_links: (response.data.data.friend_links || []).map((links: FriendLink) => ({
                         name: links.name,
                         url: links.url,
                         description: links.description || '',
@@ -46,4 +46,3 @@ export function usePanelInfo() {
         fetchPanelInfo,
     };
 }
-

@@ -13,9 +13,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '首页',
                 component: () => import('@/pages/Home/index.vue'),
                 meta: {
-                    title: 'ChmlFrp - 控制台首页',
-                    keywords: 'ChmlFrp, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: 'ChmlFrp控制台首页，您可以在这里查看您的ChmlFrp账户预览',
+                    title: 'ChmlFrp-CE - 控制台首页',
+                    keywords: 'ChmlFrp-CE, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: 'ChmlFrp-CE控制台首页，您可以在这里查看您的ChmlFrp-CE账户预览',
                     requiresAuth: true,
                 },
             },
@@ -24,9 +24,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '个人资料',
                 component: () => import('@/pages/User/index.vue'),
                 meta: {
-                    title: '个人资料 - ChmlFrp',
-                    keywords: 'ChmlFrp, 个人资料, 用户信息, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '管理和查看您的ChmlFrp个人资料和账户信息。',
+                    title: '个人资料 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 个人资料, 用户信息, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '管理和查看您的ChmlFrp-CE个人资料和账户信息。',
                     requiresAuth: true,
                 },
             },
@@ -42,9 +42,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '隧道列表',
                 component: () => import('@/pages/Tunnel/List/index.vue'),
                 meta: {
-                    title: '隧道列表 - ChmlFrp',
-                    keywords: 'ChmlFrp, 隧道管理, 隧道列表, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '查看和管理您的ChmlFrp所有映射隧道列表。',
+                    title: '隧道列表 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 隧道管理, 隧道列表, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '查看和管理您的ChmlFrp-CE所有映射隧道列表。',
                     requiresAuth: true,
                 },
             },
@@ -53,9 +53,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '软件下载',
                 component: () => import('@/pages/Tunnel/Download/index.vue'),
                 meta: {
-                    title: '软件下载 - ChmlFrp',
-                    keywords: 'ChmlFrp, 软件下载, 客户端, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '下载ChmlFrp的各种客户端软件，支持多平台。',
+                    title: '软件下载 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 软件下载, 客户端, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '下载ChmlFrp-CE的各种客户端软件，支持多平台。',
                 },
             },
             {
@@ -63,9 +63,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '配置文件',
                 component: () => import('@/pages/Tunnel/Config/index.vue'),
                 meta: {
-                    title: '配置文件 - ChmlFrp',
-                    keywords: 'ChmlFrp, 配置文件, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '配置和管理您的ChmlFrp映射配置文件。',
+                    title: '配置文件 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 配置文件, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '配置和管理您的ChmlFrp-CE映射配置文件。',
                     requiresAuth: true,
                 },
             },
@@ -74,9 +74,19 @@ const routes: Array<RouteRecordRaw> = [
                 name: '节点状态',
                 component: () => import('@/pages/Tunnel/Status/index.vue'),
                 meta: {
-                    title: '节点状态 - ChmlFrp',
-                    keywords: 'ChmlFrp, 节点状态, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '查看ChmlFrp端口映射节点的实时负载状态。',
+                    title: '节点状态 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 节点状态, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '查看ChmlFrp-CE端口映射节点的实时负载状态。',
+                },
+            },
+            {
+                path: '/tunnel/api',
+                name: 'API状态',
+                component: () => import('@/pages/Tunnel/Api/index.vue'),
+                meta: {
+                    title: 'API状态 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, API状态, 服务器状态, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '查看ChmlFrp-CE各地API服务器的实时状态和性能指标。',
                 },
             },
         ],
@@ -91,9 +101,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '免费域名',
                 component: () => import('@/pages/Expand/DomainName/index.vue'),
                 meta: {
-                    title: '免费域名 - ChmlFrp',
-                    keywords: 'ChmlFrp, 免费域名, 域名服务, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '在ChmlFrp获取和管理您的免费域名。',
+                    title: '免费域名 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 免费域名, 域名服务, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '在ChmlFrp-CE获取和管理您的免费域名。',
                     requiresAuth: true,
                 },
             },
@@ -102,9 +112,9 @@ const routes: Array<RouteRecordRaw> = [
                 name: '免费SSL',
                 component: () => import('@/pages/Expand/FreeSSL/index.vue'),
                 meta: {
-                    title: '免费SSL - ChmlFrp',
-                    keywords: 'ChmlFrp, 免费SSL证书, SSL, 端口映射, frp, 免费frp, 映射',
-                    description: '您可以在ChmlFrp免费申请SSL证书',
+                    title: '免费SSL - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 免费SSL证书, SSL, 端口映射, frp, 免费frp, 映射',
+                    description: '您可以在ChmlFrp-CE免费申请SSL证书',
                     requiresAuth: true,
                 },
             },
@@ -113,44 +123,17 @@ const routes: Array<RouteRecordRaw> = [
                 name: '应用市场',
                 component: () => import('@/pages/Expand/AppMarketplace/index.vue'),
                 meta: {
-                    title: 'ChmlFrp应用市场 - ChmlFrp',
-                    keywords: 'ChmlFrp, 应用市场, 第三方应用市场, ChmlFrp应用市场, ChmlFrp软件, frp, 免费frp, 映射',
+                    title: 'ChmlFrp-CE应用市场 - ChmlFrp-CE',
+                    keywords:
+                        'ChmlFrp-CE, 应用市场, 第三方应用市场, ChmlFrp-CE应用市场, ChmlFrp-CE软件, frp, 免费frp, 映射',
                     description:
-                        '这里包含了所有ChmlFrp的官方、第三方应用，包含接入了ChmlFrp的MC开服器、ChmlFrp便携启动器等。',
+                        '这里包含了所有ChmlFrp-CE的官方、第三方应用，包含接入了ChmlFrp-CE的MC开服器、ChmlFrp-CE便携启动器等。',
                     requiresAuth: true,
                 },
             },
         ],
     },
-    {
-        path: '/',
-        name: '增值中心',
-        component: () => import('@/views/Home/index.vue'),
-        children: [
-            {
-                path: '/shop/top-up',
-                name: '积分充值',
-                component: () => import('@/pages/Shop/TopUp/index.vue'),
-                meta: {
-                    title: '积分充值 - ChmlFrp',
-                    keywords: 'ChmlFrp, 积分充值, 增值服务, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '充值积分以获取更多增值服务。',
-                    requiresAuth: true,
-                },
-            },
-            {
-                path: '/shop/buy',
-                name: '积分商城',
-                component: () => import('@/pages/Shop/Buy/index.vue'),
-                meta: {
-                    title: '积分商城 - ChmlFrp',
-                    keywords: 'ChmlFrp, 积分商城, 增值服务, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '在ChmlFrp积分商城购买会员、带宽、隧道上限等各种增值服务。',
-                    requiresAuth: true,
-                },
-            },
-        ],
-    },
+
     {
         path: '/',
         name: '其他信息',
@@ -161,20 +144,30 @@ const routes: Array<RouteRecordRaw> = [
                 name: '关于面板',
                 component: () => import('@/pages/Other/About/index.vue'),
                 meta: {
-                    title: '关于面板 - ChmlFrp',
-                    keywords: 'ChmlFrp, 关于我们, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '了解更多关于ChmlFrp控制面板的信息。',
+                    title: '关于面板 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 关于我们, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '了解更多关于ChmlFrp-CE控制面板的信息。',
                 },
             },
             {
                 path: '/other/log',
                 name: '用户日志',
-                    component: () => import('@/pages/Other/Log/index.vue'),
+                component: () => import('@/pages/Other/Log/index.vue'),
                 meta: {
-                    title: '用户日志 - ChmlFrp',
-                    keywords: 'ChmlFrp, 用户日志, 操作记录, 内网穿透, 端口映射, frp, 免费frp, 映射',
-                    description: '查看您的ChmlFrp操作日志记录。',
+                    title: '用户日志 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 用户日志, 操作记录, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '查看您的ChmlFrp-CE操作日志记录。',
                     requiresAuth: true,
+                },
+            },
+            {
+                path: '/other/blacklist',
+                name: '联盟黑名单',
+                component: () => import('@/pages/Other/Blacklist/index.vue'),
+                meta: {
+                    title: '联盟黑名单 - ChmlFrp-CE',
+                    keywords: 'ChmlFrp-CE, 联盟黑名单, 内网穿透联盟, 违规用户, 内网穿透, 端口映射, frp, 免费frp, 映射',
+                    description: '查看中国内网穿透联盟统一黑名单信息。',
                 },
             },
         ],
@@ -184,9 +177,9 @@ const routes: Array<RouteRecordRaw> = [
         name: '登录',
         component: () => import('@/views/Sign/index.vue'),
         meta: {
-            title: '登录 - ChmlFrp',
-            keywords: 'ChmlFrp, 登录, 用户认证, 内网穿透, 端口映射, frp, 免费frp, 映射',
-            description: '登录到ChmlFrp控制台管理面板',
+            title: '登录 - ChmlFrp-CE',
+            keywords: 'ChmlFrp-CE, 登录, 用户认证, 内网穿透, 端口映射, frp, 免费frp, 映射',
+            description: '登录到ChmlFrp-CE控制台管理面板',
         },
     },
     {
@@ -194,10 +187,10 @@ const routes: Array<RouteRecordRaw> = [
         name: '隧道详情',
         component: () => import('@/views/TunnelInfo/index.vue'),
         meta: {
-            title: '隧道详情 - ChmlFrp',
-            keywords: 'ChmlFrp, 隧道详情, 内网穿透, 端口映射, frp, 免费frp, 映射',
+            title: '隧道详情 - ChmlFrp-CE',
+            keywords: 'ChmlFrp-CE, 隧道详情, 内网穿透, 端口映射, frp, 免费frp, 映射',
             description:
-                'ChmlFrp用户隧道详情，这里会展示隧道连接数，今日流量，节点负载信息，隧道基础信息及关联程序等。',
+                'ChmlFrp-CE用户隧道详情，这里会展示隧道连接数，今日流量，节点负载信息，隧道基础信息及关联程序等。',
         },
     },
     {
@@ -277,7 +270,7 @@ const routes: Array<RouteRecordRaw> = [
                     title: '免费域名管理 - 管理员控制台 - ChmlFrp',
                     requiresAuth: true,
                 },
-            }
+            },
         ],
     },
     {

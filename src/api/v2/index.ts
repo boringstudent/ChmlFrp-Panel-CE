@@ -4,6 +4,8 @@ import * as node from './node/node';
 import * as panel from './panel/panel';
 import * as domain from './domain/domain';
 import * as admin from './admin/admin';
+import * as alliance from './alliance/alliance';
+import * as server from './server/server';
 import { ApiError } from './axios/axiosInstance';
 
 export default {
@@ -13,5 +15,7 @@ export default {
     panel,
     domain,
     admin,
+    alliance,
+    server,
     ApiError,
 };

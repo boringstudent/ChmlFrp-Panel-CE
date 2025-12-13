@@ -7,9 +7,6 @@
                 <p class="not-found-description">对不起，您访问的页面不存在。可能是URL输入错误，或页面已被移除。</p>
                 <n-button type="primary" class="not-found-button" @click="goHome"> 返回主页 </n-button>
             </div>
-            <div class="not-found-footer">
-                <p>Copyright © 2021 - 2025 南充市轻爪网络科技有限公司 All rights reserved.</p>
-            </div>
         </div>
     </div>
 </template>

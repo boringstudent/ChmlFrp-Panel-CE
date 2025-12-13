@@ -17,22 +17,26 @@
                 class="custom-card"
             >
                 <template #header-extra>
-                    <n-tooltip
-                        v-if="domain.type === 'SRV' && isSpecialRecord"
-                        trigger="hover"
-                        placement="top"
-                    >
-                        <template #trigger>
-                            <n-tag round :bordered="false" type="primary" size="small" class="type-tag">
-                                {{ domain.type }}
-                                <n-icon :component="InformationCircleOutline" size="14" class="ml-1" />
-                            </n-tag>
-                        </template>
-                        {{ tooltipMessage }}
-                    </n-tooltip>
-                    <n-tag v-else round :bordered="false" type="primary" size="small" class="type-tag">
-                        {{ domain.type }}
-                    </n-tag>
+                    <n-flex align="center" justify="end">
+                        <n-checkbox 
+                            v-model:checked="isSelected" 
+                            @update:checked="handleCheckboxChange"
+                            @click.stop=""
+                            class="domain-checkbox"
+                        />
+                        <n-tooltip v-if="domain.type === 'SRV' && isSpecialRecord" trigger="hover" placement="top">
+                            <template #trigger>
+                                <n-tag round :bordered="false" type="primary" size="small" class="type-tag">
+                                    {{ domain.type }}
+                                    <n-icon :component="InformationCircleOutline" size="14" class="ml-1" />
+                                </n-tag>
+                            </template>
+                            {{ tooltipMessage }}
+                        </n-tooltip>
+                        <n-tag v-else round :bordered="false" type="primary" size="small" class="type-tag">
+                            {{ domain.type }}
+                        </n-tag>
+                    </n-flex>
                 </template>
 
                 <n-tag round :bordered="false" type="primary" size="small">
@@ -75,11 +79,23 @@ interface Props {
     domain: FreeDomain;
     loading: boolean;
     index: number;
+    selected: boolean;
 }
 
 const props = defineProps<Props>();
 
 const { isSpecialRecord: checkSpecialRecord, getTooltipMessage, cleanRecord } = useDomainUtils();
+
+const isSelected = computed({
+    get: () => props.selected,
+    set: (value) => {
+        emit('update:selected', value, props.domain, props.index);
+    },
+});
+
+const handleCheckboxChange = (checked: boolean) => {
+    isSelected.value = checked;
+};
 
 const isSpecialRecord = computed(() => checkSpecialRecord(props.domain.record));
 const tooltipMessage = computed(() => getTooltipMessage(props.domain.record, props.domain.domain));
@@ -93,6 +109,7 @@ const emit = defineEmits<{
     view: [domain: FreeDomain];
     edit: [domain: FreeDomain];
     delete: [domain: FreeDomain, index: number];
+    'update:selected': [selected: boolean, domain: FreeDomain, index: number];
 }>();
 
 const dropdownOptions = computed(() => [
@@ -132,7 +149,9 @@ const dropdownOptions = computed(() => [
 <style scoped>
 .custom-card {
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .custom-card:hover {
@@ -144,6 +163,10 @@ const dropdownOptions = computed(() => [
     margin-left: 8px;
     font-weight: 600;
     letter-spacing: 0.5px;
+}
+
+.domain-checkbox {
+    margin-right: 8px;
 }
 
 .footer-content {
@@ -172,4 +195,3 @@ const dropdownOptions = computed(() => [
     border-radius: 12px;
 }
 </style>
-

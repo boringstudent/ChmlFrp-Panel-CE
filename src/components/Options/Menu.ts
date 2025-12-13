@@ -120,6 +120,18 @@ export const computedMenuOptionsUser = computed(() => [
                 key: '软件下载',
                 icon: renderIcon(CloudDownloadOutline),
             },
+            {
+                label: () =>
+                    h(
+                        RouterLink,
+                        {
+                            to: { name: 'API状态' },
+                        },
+                        { default: () => 'API状态' }
+                    ),
+                key: 'API状态',
+                icon: renderIcon(ServerOutline),
+            },
         ],
     },
     {
@@ -138,37 +150,6 @@ export const computedMenuOptionsUser = computed(() => [
                     ),
                 key: '免费域名',
                 icon: renderIcon(LinkOutline),
-            },
-        ],
-    },
-    {
-        label: '增值中心',
-        key: '增值中心',
-        icon: renderIcon(PrismOutline),
-        children: [
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: { name: '积分充值' },
-                        },
-                        { default: () => '积分充值' }
-                    ),
-                key: '积分充值',
-                icon: renderIcon(PlanetOutline),
-            },
-            {
-                label: () =>
-                    h(
-                        RouterLink,
-                        {
-                            to: { name: '积分商城' },
-                        },
-                        { default: () => '积分商城' }
-                    ),
-                key: '积分商城',
-                icon: renderIcon(PricetagOutline),
             },
         ],
     },
@@ -204,9 +185,21 @@ export const computedMenuOptionsUser = computed(() => [
             {
                 label: () =>
                     h(
+                        RouterLink,
+                        {
+                            to: { name: '联盟黑名单' },
+                        },
+                        { default: () => '联盟黑名单' }
+                    ),
+                key: '联盟黑名单',
+                icon: renderIcon(ListCircleOutline),
+            },
+            {
+                label: () =>
+                    h(
                         'a',
                         {
-                            href: 'https://docs.chmlfrp.cn',
+                            href: 'https://docs.chmlfrp.com',
                             target: '_blank',
                             rel: 'noopenner noreferrer',
                         },
@@ -334,7 +327,7 @@ export const computedMenuOptionsAdmin = computed(() => [
                             ),
                         key: '免费域名管理',
                         icon: renderIcon(LinkOutline),
-                    }
+                    },
                 ],
             },
         ],
@@ -426,7 +419,7 @@ export const computedMenuOptionsGuest = computed(() => [
                     h(
                         'a',
                         {
-                            href: 'https://docs.chmlfrp.cn',
+                            href: 'https://docs.chmlfrp.com',
                             target: '_blank',
                             rel: 'noopenner noreferrer',
                         },

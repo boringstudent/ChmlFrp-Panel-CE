@@ -99,7 +99,7 @@
                     </n-form-item>
                     <n-form-item :label="LABELS.CLAUSE" path="clause">
                         <n-checkbox size="large" :checked="clause" @update:checked="$emit('update:clause', $event)">
-                            我同意CHMLFRP的
+                            我同意ChmlFrp-CE的
                             <n-button text tag="a" :href="TERMS_LINKS.TERMS_OF_SERVICE" target="_blank" type="primary">
                                 服务条款
                             </n-button>
@@ -149,7 +149,6 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import { FormInst } from 'naive-ui';
 import { registerRules } from '@/utils/authRules';
 import type { RegisterModel } from '../types';
 import { LABELS, MAX_LENGTH, PLACEHOLDERS, TERMS_LINKS, BUTTON_TEXT } from '../constants';
@@ -168,7 +167,6 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const formRef = defineModel<FormInst | null>('formRef', { default: null });
 
 const isTouchDevice = inject('isTouchDevice');
 
@@ -186,9 +184,7 @@ const loadingCaptcha = computed(() =>
 const buttonDisabled = computed(() =>
     typeof props.buttonDisabled === 'object' ? props.buttonDisabled.value : props.buttonDisabled
 );
-const buttonText = computed(() =>
-    typeof props.buttonText === 'object' ? props.buttonText.value : props.buttonText
-);
+const buttonText = computed(() => (typeof props.buttonText === 'object' ? props.buttonText.value : props.buttonText));
 const isNextStepDisabled = computed(() =>
     typeof props.isNextStepDisabled === 'object' ? props.isNextStepDisabled.value : props.isNextStepDisabled
 );
@@ -217,4 +213,3 @@ defineEmits<{
     min-height: 200px;
 }
 </style>
-

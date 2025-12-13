@@ -20,11 +20,10 @@ export const TIME_UPDATE_INTERVAL = 1000;
 
 export const BYTES_TO_MB = 1024 * 1024;
 
-export const TUTORIAL_URL = 'https://docs.chmlfrp.cn/docs/use/mapping.html';
+export const TUTORIAL_URL = 'https://docs.chmlfrp.com/docs/use/mapping.html';
 
-export const DOCS_URL = 'https://docs.chmlfrp.cn';
+export const DOCS_URL = 'https://docs.chmlfrp.com';
 
 export const QQ_GROUP_LINK = 'https://qm.qq.com/q/l5LAQEDAVq';
 
 export const QQ_GROUP_NUMBER = 838521529;
-

@@ -32,19 +32,14 @@ export interface NodesListResponse extends BaseResponse {
 }
 
 /** 获取节点列表（管理员） */
-export const getNodes = async (
-    admin_token: string
-): Promise<NodesListResponse> => {
+export const getNodes = async (admin_token: string): Promise<NodesListResponse> => {
     return axiosInstance.get('/admin/nodes', {
         params: { admin_token },
     });
 };
 
 /** 创建节点（管理员） */
-export const createNode = async (
-    admin_token: string,
-    payload: Record<string, unknown>
-): Promise<BaseResponse> => {
+export const createNode = async (admin_token: string, payload: Record<string, unknown>): Promise<BaseResponse> => {
     return axiosInstance.post('/admin/nodes', payload, {
         params: { admin_token },
     });
@@ -62,10 +57,7 @@ export const updateNode = async (
 };
 
 /** 删除节点（管理员） */
-export const deleteNode = async (
-    admin_token: string,
-    nodeId: number
-): Promise<BaseResponse> => {
+export const deleteNode = async (admin_token: string, nodeId: number): Promise<BaseResponse> => {
     return axiosInstance.delete(`/admin/nodes/${nodeId}`, {
         params: { admin_token },
     });
@@ -74,11 +66,7 @@ export const deleteNode = async (
 /**
  * 获取用户列表（管理员）
  */
-export const getUsers = async (
-    admin_token: string,
-    page: number,
-    size: number
-): Promise<UsersListResponse> => {
+export const getUsers = async (admin_token: string, page: number, size: number): Promise<UsersListResponse> => {
     return axiosInstance.get('/admin/users', {
         params: { admin_token, page, size },
     });
@@ -111,5 +99,3 @@ export const updateUser = async (
         params: { admin_token },
     });
 };
-
-

@@ -16,10 +16,7 @@
         <defs>
             <!-- 红绿色盲辅助滤镜 -->
             <filter id="colorblind" color-interpolation-filters="sRGB">
-                <feColorMatrix
-                    type="matrix"
-                    values="0.567 0.433 0 0 0 0.558 0.442 0 0 0 0 0.242 0.758 0 0 0 0 0 1 0"
-                />
+                <feColorMatrix type="matrix" values="0.567 0.433 0 0 0 0.558 0.442 0 0 0 0 0.242 0.758 0 0 0 0 0 1 0" />
             </filter>
         </defs>
     </svg>
@@ -50,18 +47,6 @@ onMounted(() => {
 const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
 
-// 控制台输出版权信息             
-const qzhuaLogo = `
-   ___    _____  _                     
-  / _ \\  |__  / | |__    _   _    __ _ 
- | | | |   / /  | '_ \\  | | | |  / _\` |
- | |_| |  / /_  | | | | | |_| | | (_| |
-  \\__\\_\\ /____| |_| |_|  \\__,_|  \\__,_|
-`;
-
-console.info(qzhuaLogo);
-console.info(`Copyright 2021 - ${currentYear} 南充市轻爪网络科技有限公司 All rights reserved.`);
-
 const themeStore = useThemeStore();
 
 const computedTheme = computed(() => {
@@ -78,13 +63,14 @@ const themeOverrides = computed(() => {
 
     // 如果有背景图，则让背景色透明，否则使用默认背景色
     const hasBackgroundImage = !!themeStore.backgroundImage;
-    const bodyColor = hasBackgroundImage 
-        ? 'transparent' 
-        : (themeStore.theme === 'light' ? '#f5f5f5' : undefined);
+    const bodyColor = hasBackgroundImage ? 'transparent' : themeStore.theme === 'light' ? '#f5f5f5' : undefined;
 
-    const lightThemeOverrides = themeStore.theme === 'light' ? {
-        bodyColor: bodyColor || '#f5f5f5', // 更改亮色主题下的背景颜色
-    } : {};
+    const lightThemeOverrides =
+        themeStore.theme === 'light'
+            ? {
+                  bodyColor: bodyColor || '#f5f5f5', // 更改亮色主题下的背景颜色
+              }
+            : {};
 
     return {
         common: {
@@ -108,7 +94,6 @@ const themeOverrides = computed(() => {
         },
     };
 });
-
 
 let animationFrameId: number | null = null;
 let isRGBRunning = false;
@@ -262,18 +247,21 @@ html {
         background-repeat: no-repeat;
         background-attachment: fixed;
         filter: blur(var(--background-blur, 0px));
-        transition: filter 0.3s ease, background-image 0.3s ease, opacity 0.3s ease;
+        transition:
+            filter 0.3s ease,
+            background-image 0.3s ease,
+            opacity 0.3s ease;
         pointer-events: none; // 确保背景图不阻挡交互
         will-change: background-image, filter; // 优化性能
     }
-    
+
     // 当没有背景图 CSS 变量时隐藏伪元素
-    &:not([style*="--background-image"])::before {
+    &:not([style*='--background-image'])::before {
         display: none;
     }
-    
+
     // 当有背景图时显示
-    &[style*="--background-image"]::before {
+    &[style*='--background-image']::before {
         display: block;
     }
 }
@@ -291,7 +279,7 @@ body {
 }
 
 // 当有背景图 CSS 变量时，让 body 和 html 背景透明
-html[style*="--background-image"] {
+html[style*='--background-image'] {
     background-color: transparent !important;
 }
 
@@ -349,25 +337,25 @@ html::before {
 .color-blind-mode {
     // 增强整体对比度，帮助色弱用户区分元素
     filter: contrast(1.15) brightness(1.05);
-    
+
     // 确保所有按钮、链接都有明显的视觉区分（不依赖颜色）
     .n-button {
         border-width: 2px !important;
         font-weight: 500 !important;
     }
-    
+
     // 确保状态指示器有图标或文字，不只用颜色
     .n-badge {
         border: 2px solid currentColor !important;
     }
-    
+
     // 增强输入框的边框可见性
     .n-input,
     .n-select,
     .n-date-picker {
         border-width: 2px !important;
     }
-    
+
     // 确保链接有下划线
     a:not(.n-button) {
         text-decoration: underline !important;
@@ -385,12 +373,24 @@ html::before {
     --n-card-color: #ffffff !important;
     --n-modal-color: #ffffff !important;
     --n-popover-color: #ffffff !important;
-    
+
     // 确保主要文字元素是黑色（高对比度）
-    p, span, div, h1, h2, h3, h4, h5, h6, li, td, th, label {
+    p,
+    span,
+    div,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    td,
+    th,
+    label {
         color: #000000 !important;
     }
-    
+
     // 确保所有背景都是白色
     .n-card,
     .n-modal,
@@ -400,20 +400,20 @@ html::before {
         background-color: #ffffff !important;
         border: 2px solid #000000 !important;
     }
-    
+
     // 按钮样式：黑色边框，白色背景，黑色文字
     .n-button {
         border: 2px solid #000000 !important;
         background-color: #ffffff !important;
         color: #000000 !important;
         font-weight: bold !important;
-        
+
         &:hover {
             background-color: #000000 !important;
             color: #ffffff !important;
         }
     }
-    
+
     // 输入框：黑色边框，白色背景
     .n-input,
     .n-select,
@@ -423,19 +423,19 @@ html::before {
         background-color: #ffffff !important;
         color: #000000 !important;
     }
-    
+
     // 链接：黑色，加粗，下划线
     a {
         color: #000000 !important;
         text-decoration: underline !important;
         font-weight: bold !important;
-        
+
         &:hover {
             background-color: #000000 !important;
             color: #ffffff !important;
         }
     }
-    
+
     // 菜单和侧边栏
     .n-layout-header,
     .n-layout-sider {
@@ -454,12 +454,24 @@ html[data-theme='dark'].high-contrast-mode {
     --n-card-color: #000000 !important;
     --n-modal-color: #000000 !important;
     --n-popover-color: #000000 !important;
-    
+
     // 确保主要文字元素是白色（高对比度）
-    p, span, div, h1, h2, h3, h4, h5, h6, li, td, th, label {
+    p,
+    span,
+    div,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    td,
+    th,
+    label {
         color: #ffffff !important;
     }
-    
+
     .n-card,
     .n-modal,
     .n-drawer,
@@ -468,19 +480,19 @@ html[data-theme='dark'].high-contrast-mode {
         background-color: #000000 !important;
         border: 2px solid #ffffff !important;
     }
-    
+
     .n-button {
         border: 2px solid #ffffff !important;
         background-color: #000000 !important;
         color: #ffffff !important;
         font-weight: bold !important;
-        
+
         &:hover {
             background-color: #ffffff !important;
             color: #000000 !important;
         }
     }
-    
+
     .n-input,
     .n-select,
     .n-date-picker,
@@ -489,18 +501,18 @@ html[data-theme='dark'].high-contrast-mode {
         background-color: #000000 !important;
         color: #ffffff !important;
     }
-    
+
     a {
         color: #ffffff !important;
         text-decoration: underline !important;
         font-weight: bold !important;
-        
+
         &:hover {
             background-color: #ffffff !important;
             color: #000000 !important;
         }
     }
-    
+
     .n-layout-header,
     .n-layout-sider {
         background-color: #000000 !important;
@@ -523,7 +535,7 @@ svg.defs-only {
     #app {
         opacity: 1 !important;
     }
-    
+
     // 为所有主要容器元素应用毛玻璃效果
     .n-card,
     .n-card .n-card__action,
@@ -539,7 +551,7 @@ svg.defs-only {
         -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
-    
+
     // 警告信息和消息提示
     .n-alert,
     .n-message,
@@ -549,7 +561,7 @@ svg.defs-only {
         -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
-    
+
     // 选择器及其下拉菜单
     .n-select,
     .n-base-select,
@@ -562,7 +574,7 @@ svg.defs-only {
         backdrop-filter: blur(10px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
     }
-    
+
     // 选择器下拉菜单容器
     .n-base-select-menu__wrapper,
     .n-select-menu__wrapper {
@@ -571,7 +583,7 @@ svg.defs-only {
         -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
-    
+
     // 暗色主题下的毛玻璃效果
     html[data-theme='dark'] & {
         .n-card,
@@ -586,14 +598,14 @@ svg.defs-only {
             background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
-        
+
         .n-alert,
         .n-message,
         .n-notification {
             background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
-        
+
         .n-select,
         .n-base-select,
         .n-base-select-menu,
@@ -603,14 +615,14 @@ svg.defs-only {
         .n-base-select-menu__empty {
             background: rgba(0, 0, 0, 0.3) !important;
         }
-        
+
         .n-base-select-menu__wrapper,
         .n-select-menu__wrapper {
             background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
     }
-    
+
     // 输入框和按钮也应用毛玻璃效果
     .n-input,
     .n-date-picker,
@@ -619,7 +631,7 @@ svg.defs-only {
         backdrop-filter: blur(10px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(10px) saturate(180%) !important;
     }
-    
+
     html[data-theme='dark'] & {
         .n-input,
         .n-date-picker,
@@ -627,16 +639,16 @@ svg.defs-only {
             background: rgba(0, 0, 0, 0.3) !important;
         }
     }
-    
+
     // 在毛玻璃模式下隐藏所有分割线
     .n-divider {
         display: none !important;
     }
-    
+
     // 隐藏其他可能的分割线元素
     hr,
     .divider,
-    [class*="divider"] {
+    [class*='divider'] {
         display: none !important;
     }
 }

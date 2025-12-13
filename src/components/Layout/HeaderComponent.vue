@@ -10,7 +10,7 @@
         </div>
 
         <!-- 左侧 LOGO -->
-        <span class="logo" :style="{ color: themeStore.primaryColor }" v-if="!isHidden"> ChmlFrp </span>
+        <span class="logo" :style="{ color: themeStore.primaryColor }" v-if="!isHidden"> ChmlFrp-CE </span>
         <div class="right-section">
             <!-- <n-popover trigger="click" style="border-radius: 8px; max-height: 60vh; width: 350px">
                 <template #trigger>

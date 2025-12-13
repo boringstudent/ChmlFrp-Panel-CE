@@ -14,7 +14,7 @@ export const FAQ_DATA: FAQItem[] = [
         name: '1',
         content: `
             <n-p>
-                使用chmlfrp映射远程桌面、数据库等，映射后会暴露在公网环境。您应该注意您的数据安全，设置安全的密码。因此类问题造成的锁机·重要文件被盗，我们概不负责。
+                使用ChmlFrp映射远程桌面、数据库等，映射后会暴露在公网环境。您应该注意您的数据安全，设置安全的密码。因此类问题造成的锁机·重要文件被盗，我们概不负责。
             </n-p>
             <n-p>
                 除此之外，您需要注意不要泄露TOKEN，如果不小心泄露，请立刻前往个人资料页重置TOKEN。
@@ -138,8 +138,7 @@ export const FAQ_DATA: FAQItem[] = [
             <br />
             友链的期限不固定，如发现违规，我们有权直接删除友链。需要注意的是友链的期限不是永久，我们可能会在不通知您的情况下直接删除。
             <br />
-            友链申请详情规则请前往：https://docs.chmlfrp.cn/docs/guide/friends.html
+            友链申请详情规则请前往：https://docs.chmlfrp.com/docs/guide/friends.html
         `,
     },
 ];
-

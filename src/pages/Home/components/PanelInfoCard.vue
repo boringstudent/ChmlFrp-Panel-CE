@@ -1,6 +1,6 @@
 <template>
     <n-card style="margin-top: 15px">
-        <n-result status="success" title="ChmlFrp - Panel v3.0" description="简约 大气 开源">
+        <n-result status="success" title="ChmlFrp-CE - Panel v3.0" description="简约 大气 开源">
             <n-descriptions label-placement="left" :column="screenWidth >= 600 ? 3 : 1">
                 <n-descriptions-item label="隧道数">
                     <n-skeleton v-if="loading" text :width="40" />
@@ -46,4 +46,3 @@ defineProps<Props>();
 const screenStore = useScreenStore();
 const { screenWidth } = storeToRefs(screenStore);
 </script>
-

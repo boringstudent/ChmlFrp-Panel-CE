@@ -4,7 +4,11 @@
         <n-grid cols="1 s:5" responsive="screen" :x-gap="15" :y-gap="20">
             <n-gi :span="3">
                 <UserMessagesCard
-                    :user-info="userInfo ? { usergroup: userInfo.usergroup, realname: userInfo.realname, term: userInfo.term } : undefined"
+                    :user-info="
+                        userInfo
+                            ? { usergroup: userInfo.usergroup, realname: userInfo.realname, term: userInfo.term }
+                            : undefined
+                    "
                     :remaining-days="remainingDays"
                 />
                 <UserSettingsCard :settings="settingCard">
@@ -50,7 +54,11 @@
                     :user-info="userInfo ? { realname: userInfo.realname } : undefined"
                     :on-submit="submitRealName"
                 />
-                <ExchangeCodeForm :loading="loadingGiftCode" :model="exchangeCodeModel" :on-submit="submitExchangeCode" />
+                <ExchangeCodeForm
+                    :loading="loadingGiftCode"
+                    :model="exchangeCodeModel"
+                    :on-submit="submitExchangeCode"
+                />
                 <UserProfileCard
                     :user-info="
                         userInfo
@@ -134,7 +142,9 @@
     />
 
     <!-- 模糊遮罩 -->
-    <div v-show="showBlurOverlay" style="
+    <div
+        v-show="showBlurOverlay"
+        style="
             position: fixed;
             top: 0;
             left: 0;
@@ -143,7 +153,8 @@
             backdrop-filter: blur(var(--modal-filter));
             z-index: 9998;
             pointer-events: all;
-        "></div>
+        "
+    ></div>
 </template>
 
 <script setup lang="ts">
@@ -189,11 +200,7 @@ const {
     onSignButtonClick,
 } = useSignIn(userInfo || {});
 
-const {
-    loading: loadingRealName,
-    model: realNameModel,
-    submit: submitRealName,
-} = useRealName(userInfo || {});
+const { loading: loadingRealName, model: realNameModel, submit: submitRealName } = useRealName(userInfo || {});
 
 const {
     loading: loadingGiftCode,
@@ -228,9 +235,7 @@ const newEmail = ref('');
 
 // User Settings & Updates
 const { loadingOfflineAllTunnels, resetToken, offlineAllTunnels } = useUserSettings(userInfo || {});
-const { QQImg, CravatarImg } = useUserProfile(
-    userInfo ? { qq: userInfo.qq, email: userInfo.email } : undefined
-);
+const { QQImg, CravatarImg } = useUserProfile(userInfo ? { qq: userInfo.qq, email: userInfo.email } : undefined);
 const {
     loadingUpdateImg,
     loadingUpdateUserName,
@@ -268,9 +273,6 @@ const remainingDays = computed(() => {
     const diffTime = termDate.getTime() - today.getTime();
     return Math.ceil(diffTime / (1000 * 3600 * 24));
 });
-
-
-
 
 const handleResetUserImg = async () => {
     const success = await resetUserImg();
@@ -316,9 +318,6 @@ const handleGeeTest = async (type: 'old' | 'new') => {
 watch(newEmail, (newVal) => {
     newButtonDisabled.value = !newVal;
 });
-
-
-
 
 const openChangeTheUsernameModal = () => {
     changeTheUsernameModal.value = true;

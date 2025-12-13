@@ -16,10 +16,8 @@ export const FAST_RECORD_TYPE_OPTIONS: RecordTypeOption[] = ['CNAME', 'Java版MC
 }));
 
 // TTL 选项
-export const TTL_OPTIONS: Array<{ label: TTLValue; value: TTLValue }> = [
-    '1分钟',
-    '2分钟',
-    '5分钟',
+export const TTL_OPTIONS: Array<{ label: string; value: TTLValue | '不修改' }> = [
+    { label: '不修改', value: '不修改' },
     '10分钟',
     '15分钟',
     '30分钟',
@@ -29,8 +27,8 @@ export const TTL_OPTIONS: Array<{ label: TTLValue; value: TTLValue }> = [
     '12小时',
     '1天',
 ].map((v) => ({
-    label: v as TTLValue,
-    value: v as TTLValue,
+    label: typeof v === 'string' ? v : v.label,
+    value: typeof v === 'string' ? (v as TTLValue) : v.value,
 }));
 
 // 默认 TTL 值
@@ -118,4 +116,3 @@ export const MINECRAFT_SRV_CONFIG = {
     PREFIX: '_minecraft._tcp.',
     TARGET_FORMAT: (dorp: string, ip: string) => `5 0 ${dorp} ${ip}`,
 } as const;
-

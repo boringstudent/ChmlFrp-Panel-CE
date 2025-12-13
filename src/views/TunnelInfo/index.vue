@@ -62,7 +62,7 @@
                 <n-grid-item>
                     <n-card style="height: 192px" size="small" class="state">
                         <template #header>
-                            ChmlFrp-Tunnel
+                            ChmlFrp-CE Tunnel
                             <span style="color: gray; font-size: 14px">#114514</span>
                         </template>
                         <n-thing>
@@ -75,7 +75,7 @@
                                     </n-space>
                                 </n-flex>
                             </template>
-                            客户端：ChmlFrp-0.51.2<br />
+                            客户端：ChmlFrp-CE-0.51.2<br />
                             <a @click="copyToClipboard('frp.one')" style="cursor: pointer; color: inherit">
                                 连接地址：yq.frp.one:12521 </a
                             ><br />

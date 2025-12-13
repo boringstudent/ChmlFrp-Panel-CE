@@ -2,11 +2,7 @@
     <n-card title="使用兑换码">
         <n-form ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="auto">
             <n-form-item path="exchangeCode" label="兑换码" :show-require-mark="true">
-                <n-input
-                    placeholder="请输入兑换码，如：XXXX-XXXX-XXXX-XXXX"
-                    v-model:value="model.exchangeCode"
-                    round
-                />
+                <n-input placeholder="请输入兑换码，如：XXXX-XXXX-XXXX-XXXX" v-model:value="model.exchangeCode" round />
             </n-form-item>
             <n-row :gutter="[0, 24]">
                 <n-col :span="24">
@@ -53,4 +49,3 @@ defineExpose({
     formRef,
 });
 </script>
-

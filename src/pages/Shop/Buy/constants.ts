@@ -8,7 +8,7 @@ export const PURCHASE_NOTICE =
     '购买后积分无法退还。多次购买同一套餐则增加对应会员时长，如果要升级会员请选择升级会员。如果无法支付或支付后未到账，请联系客服QQ：242247494开通临时支付渠道或进行补发。';
 
 // 客服联系方式
-export const TECHNICAL_SUPPORT_TIP = '任何与ChmlFrp映射相关的问题，都可以联系技术QQ：242247494申请手把手教学！';
+export const TECHNICAL_SUPPORT_TIP = '任何与ChmlFrp-CE映射相关的问题，都可以联系技术QQ：242247494申请手把手教学！';
 
 // 支付配置
 export const PAYMENT_CONFIG = {
@@ -102,4 +102,3 @@ export const BUTTON_TEXT = {
     REGISTER_FREE: '注册即得',
     PURCHASE_NOW: '立即购买',
 } as const;
-
