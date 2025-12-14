@@ -25,6 +25,7 @@ import {
     ConstructOutline,
     ListCircleOutline,
     ServerOutline,
+    BagHandleOutline,
 } from '@vicons/ionicons5';
 
 const userStore = useUserStore();
@@ -150,6 +151,18 @@ export const computedMenuOptionsUser = computed(() => [
                     ),
                 key: '免费域名',
                 icon: renderIcon(LinkOutline),
+            },
+            {
+                label: () =>
+                    h(
+                        RouterLink,
+                        {
+                            to: { name: '应用市场' },
+                        },
+                        { default: () => '应用市场' }
+                    ),
+                key: '应用市场',
+                icon: renderIcon(BagHandleOutline),
             },
         ],
     },

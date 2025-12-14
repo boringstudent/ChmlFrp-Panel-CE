@@ -1,8 +1,17 @@
 <template>
-    <n-card size="small">
+    <n-card size="small" :class="{ 'tunnel-card-selected': props.checked }">
         <template #header>
-            {{ card.name }}
-            <span style="color: gray; font-size: 14px">{{ card.id }}</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <n-checkbox 
+                    :checked="props.checked" 
+                    @update:checked="$emit('update:checked', $event)"
+                    style="margin-right: 4px;"
+                />
+                <div>
+                    {{ card.name }}
+                    <span style="color: gray; font-size: 14px">{{ card.id }}</span>
+                </div>
+            </div>
         </template>
         <template #header-extra>
             <n-tooltip trigger="hover">
@@ -112,6 +121,7 @@ import type { TunnelCard } from '../types';
 interface Props {
     card: TunnelCard;
     deletetTunnelSuccess: boolean;
+    checked: boolean;
     onEdit: (card: TunnelCard) => void;
     onGetConfig: (card: TunnelCard) => void;
     onRefresh: (card: TunnelCard) => void;
@@ -125,6 +135,10 @@ const props = defineProps<Props>();
 const message = useMessage();
 const trafficIn = computed(() => formatBytes(props.card.today_traffic_in));
 const trafficOut = computed(() => formatBytes(props.card.today_traffic_out));
+
+defineEmits<{
+    'update:checked': [value: boolean];
+}>();
 
 const dropdownOptions = computed(() => [
     {
@@ -206,3 +220,10 @@ const handleDropdownSelect = (key: string) => {
     }
 };
 </script>
+
+<style scoped>
+.tunnel-card-selected {
+    border: 2px solid #18a058;
+    box-shadow: 0 0 0 1px #18a058;
+}
+</style>

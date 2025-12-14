@@ -1,313 +1,274 @@
 <template>
     <n-back-top :right="100" />
-    <n-carousel show-arrow autoplay style="width: 100%; height: 320px; border-radius: 8px">
-        <div class="carousel-slide" :class="{ 'dark-mode-overlay': isDarkTheme }">
-            <img class="carousel-img" src="https://www.chmlfrp.net/image/1.png" />
-            <div class="carousel-caption">
-                <img
-                    class="carousel-favicon"
-                    :class="{ 'dark-favicon': isDarkTheme }"
-                    src="https://www.mslmc.cn/logo.png"
-                />
-                <h3>MSL开服器</h3>
-                <p>新一代服务器管理/联机工具</p>
-            </div>
-        </div>
-        <div class="carousel-slide" :class="{ 'dark-mode-overlay': isDarkTheme }">
-            <img class="carousel-img" src="https://www.chmlfrp.net/image/2.png" />
-            <div class="carousel-caption">
-                <img
-                    class="carousel-favicon"
-                    :class="{ 'dark-favicon': isDarkTheme }"
-                    src="https://chmlfrp.net/favicon.ico"
-                />
-                <h3>ChmlFrp_WinUi启动器</h3>
-                <p>来自ChmlFrp官方开发组，简洁美观，专为Win10以上设计</p>
-            </div>
-        </div>
-        <template #arrow="{ prev, next }">
-            <div class="custom-arrow">
-                <button
-                    type="button"
-                    class="custom-arrow--left"
-                    @click="prev"
-                    :class="{ 'dark-arrow': isDarkTheme, 'light-arrow': !isDarkTheme }"
-                >
-                    <n-icon :style="{ color: isDarkTheme ? '#fff' : '#000' }">
-                        <ArrowBack />
-                    </n-icon>
-                </button>
-                <button
-                    type="button"
-                    class="custom-arrow--right"
-                    @click="next"
-                    :class="{ 'dark-arrow': isDarkTheme, 'light-arrow': !isDarkTheme }"
-                >
-                    <n-icon :style="{ color: isDarkTheme ? '#fff' : '#000' }">
-                        <ArrowForward />
-                    </n-icon>
-                </button>
-            </div>
-        </template>
-        <template #dots="{ total, currentIndex, to }">
-            <ul class="custom-dots">
-                <li
-                    v-for="index of total"
-                    :key="index"
-                    :class="{
-                        ['is-active']: currentIndex === index - 1,
-                        'dark-dot': isDarkTheme,
-                        'light-dot': !isDarkTheme,
-                    }"
-                    @click="to(index - 1)"
-                    :style="dotStyle(index, currentIndex)"
-                />
-            </ul>
-        </template>
-    </n-carousel>
-    <n-grid cols="6" item-responsive responsive="screen" class="softwareModule">
-        <!-- ChmlFrp官方应用 -->
-        <n-grid-item span="6">
-            <n-h3 style="margin-top: 32px"> ChmlFrp官方应用 </n-h3>
-            <n-grid
-                x-gap="12"
-                y-gap="12"
-                cols="1 s:3 m:4 l:5 xl:5"
-                responsive="screen"
-                :collapsed-rows="1"
-                :collapsed="true"
-            >
-                <n-gi v-for="app in apps" :key="app.id">
-                    <n-card size="small" hoverable @click="$router.push(app.router)">
-                        <template #cover>
-                            <img
-                                :src="app.coverImage"
-                                alt="cover"
-                                style="width: 100%; height: 120px; filter: brightness(0.9)"
-                            />
-                        </template>
-                        <div style="margin-top: 16px">
-                            <img
-                                :src="app.favicon"
-                                alt="favicon"
-                                style="width: 24px; height: 24px; margin-right: 8px"
-                            />
-                            <span>{{ app.name }}</span>
-                            <p style="font-size: 12px; color: #666">{{ app.description }}</p>
-                        </div>
-                    </n-card>
-                </n-gi>
-            </n-grid>
-        </n-grid-item>
-    </n-grid>
-    <n-h3 style="margin-top: 32px"> 第三方软件 </n-h3>
-    <n-grid x-gap="12" y-gap="12" cols="1 s:3 m:4 l:5 xl:5" responsive="screen">
-        <n-gi>
-            <n-card size="small" hoverable>
-                <template #cover>
-                    <img src="https://via.placeholder.com/320x120" />
+    <n-h2>应用市场</n-h2>
+    <n-card style="margin-bottom: 24px">
+        <n-space vertical>
+            <p>这里汇集了各种优秀的应用和工具，为ChmlFrp用户提供更多选择。</p>
+            <n-space>
+                <n-statistic label="应用总数" :value="appData.total" />
+                <n-statistic label="开源应用" :value="appData.open_source_count" />
+                <n-statistic label="闭源应用" :value="appData.proprietary_count" />
+            </n-space>
+        </n-space>
+    </n-card>
+    
+    <n-h3>应用列表</n-h3>
+    <n-spin :show="loading">
+        <n-list hoverable>
+            <n-list-item v-for="app in sortedApps" :key="app.id">
+                <template #prefix>
+                    <n-avatar
+                        size="large"
+                        :src="app.icon"
+                        fallback-src="https://cdn.chmlfrp.cn/icon/default-app.png"
+                    />
                 </template>
-                <div style="padding: 8px">
-                    <span>示例第三方软件</span>
-                    <p style="font-size: 12px; color: #666">功能强大，欢迎体验</p>
+                <n-thing :title="app.name" :description="app.intro" @click="showAppDetail(app)" style="cursor: pointer;">
+                    <template #action>
+                        <n-space>
+                            <n-tag :type="app.open_source ? 'success' : 'warning'" size="small">
+                                {{ app.open_source ? '开源' : '闭源' }}
+                            </n-tag>
+                            <n-button
+                                size="small"
+                                type="primary"
+                                @click.stop="handleDownload(app)"
+                                :disabled="!app.download_url"
+                            >
+                                下载
+                            </n-button>
+                        </n-space>
+                    </template>
+                </n-thing>
+            </n-list-item>
+        </n-list>
+        
+        <n-empty v-if="!loading && sortedApps.length === 0" description="暂无应用数据">
+            <template #extra>
+                <n-button size="small" @click="fetchApps">
+                    重新加载
+                </n-button>
+            </template>
+        </n-empty>
+    </n-spin>
+    
+    <n-modal v-model:show="showDetail" preset="card" style="width: 600px; max-width: 90vw;">
+        <template #header>
+            <n-space align="center">
+                <n-avatar
+                    size="medium"
+                    :src="selectedApp?.icon"
+                    fallback-src="https://cdn.chmlfrp.cn/icon/default-app.png"
+                />
+                <div>
+                    <n-h3 style="margin: 0">{{ selectedApp?.name }}</n-h3>
+                    <n-text depth="3">{{ selectedApp?.intro }}</n-text>
                 </div>
-            </n-card>
-        </n-gi>
-    </n-grid>
+            </n-space>
+        </template>
+        <n-space vertical>
+            <n-space align="center">
+                <n-tag :type="selectedApp?.open_source ? 'success' : 'warning'" size="small">
+                    {{ selectedApp?.open_source ? '开源应用' : '闭源应用' }}
+                </n-tag>
+                <n-button
+                    type="primary"
+                    @click="handleDownload(selectedApp!)"
+                    :disabled="!selectedApp?.download_url"
+                >
+                    下载应用
+                </n-button>
+            </n-space>
+            <n-h4>应用介绍</n-h4>
+            <div v-html="renderedDescription" class="markdown-content"></div>
+        </n-space>
+    </n-modal>
+    
     <n-card style="margin-top: 32px">
-        如果您也想让您的软件出现在这里，请邮件联系 <a href="mailto:support@chcat.cn">support@chcat.cn</a>
+        如果您也想让您的软件出现在这里，请邮件联系 <a href="mailto:boring_student@qq.com">boring_student@qq.com</a>
     </n-card>
 </template>
 
 <script lang="ts" setup>
-import { ArrowBack, ArrowForward } from '@vicons/ionicons5';
-import { computed } from 'vue';
-import { useThemeStore } from '@/stores/theme';
+import { ref, computed, onMounted } from 'vue';
+import { marked } from 'marked';
 
-// 获取主题状态
-const themeStore = useThemeStore();
-const isDarkTheme = computed(() => themeStore.theme === 'dark');
+// 定义应用数据类型
+interface App {
+    id: number;
+    name: string;
+    intro: string;
+    description: string;
+    open_source: boolean;
+    icon: string;
+    download_url: string;
+}
 
-// 自定义 dots 样式
-const dotStyle = (index: number, currentIndex: number) => {
-    return {
-        backgroundColor:
-            currentIndex === index - 1
-                ? isDarkTheme.value
-                    ? '#fff'
-                    : '#000'
-                : isDarkTheme.value
-                  ? 'rgba(255, 255, 255, 0.4)'
-                  : 'rgba(0, 0, 0, 0.4)',
-        width: currentIndex === index - 1 ? '40px' : '12px',
-    };
+interface AppData {
+    apps: App[];
+    total: number;
+    open_source_count: number;
+    proprietary_count: number;
+}
+
+// 响应式数据
+const loading = ref(true);
+const appData = ref<AppData>({
+    apps: [],
+    total: 0,
+    open_source_count: 0,
+    proprietary_count: 0
+});
+const showDetail = ref(false);
+const selectedApp = ref<App | null>(null);
+const renderedDescription = ref('');
+
+// API URL
+const API_URL = 'https://chmlfrp.api.chmlfrp.com/appstore';
+
+// 计算属性：按开源在前排序的应用列表
+const sortedApps = computed(() => {
+    return [...appData.value.apps].sort((a: App, b: App) => {
+        // 开源应用在前，商业应用在后
+        if (a.open_source && !b.open_source) return -1;
+        if (!a.open_source && b.open_source) return 1;
+        // 相同类型按ID排序
+        return a.id - b.id;
+    });
+});
+
+// 从API获取应用数据
+const fetchApps = async () => {
+    loading.value = true;
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        if (data.msg === '应用列表获取成功') {
+            appData.value = data.data;
+        } else {
+            throw new Error('API返回错误信息');
+        }
+    } catch (error) {
+        console.error('获取应用数据失败:', error);
+        // 使用模拟数据作为备用
+        appData.value = {
+            apps: [
+                {
+                    id: 1,
+                    name: 'ChmlFrp客户端',
+                    intro: '内网穿透工具',
+                    description: 'ChmlFrp官方推出的内网穿透客户端，支持Windows、macOS、Linux系统，提供稳定快速的内网穿透服务。',
+                    open_source: true,
+                    icon: 'https://cdn.chmlfrp.cn/icon/chmlfrp-client.png',
+                    download_url: 'https://download.chmlfrp.cn'
+                },
+                {
+                    id: 2,
+                    name: 'FrpMgr面板',
+                    intro: 'Frp服务管理面板',
+                    description: '基于Web的Frp服务管理面板，提供隧道管理、节点监控、用户管理等功能，支持多用户和多节点部署。',
+                    open_source: true,
+                    icon: 'https://cdn.chmlfrp.cn/icon/frpmgr-panel.png',
+                    download_url: 'https://github.com/chmlfrp/frpmgr'
+                }
+            ],
+            total: 2,
+            open_source_count: 2,
+            proprietary_count: 0
+        };
+    } finally {
+        loading.value = false;
+    }
 };
 
-// 示例应用数据
-const apps = ref([
-    {
-        id: 1,
-        name: 'WinUi启动器',
-        description: 'win10以上的图形客户端',
-        coverImage: 'https://www.chmlfrp.net/image/2.png',
-        favicon: 'https://chmlfrp.net/favicon.ico',
-        router: '/app_details/1',
-    },
-    {
-        id: 2,
-        name: 'EXUI启动器',
-        description: 'win7以上的图形客户端',
-        coverImage: 'https://www.chmlfrp.net/image/3.png',
-        favicon: 'https://chmlfrp.net/favicon.ico',
-        router: '/app_details/2',
-    },
-    {
-        id: 3,
-        name: 'MC插件端',
-        description: '适用于MC插件服务器',
-        coverImage: 'https://via.placeholder.com/320x120',
-        favicon: 'https://static.spigotmc.org/img/spigot.png',
-        router: '/app_details/3',
-    },
-    {
-        id: 4,
-        name: 'MCFabric模组端',
-        description: '提供MC游戏内的隧道操控',
-        coverImage: 'https://via.placeholder.com/320x120',
-        favicon: 'https://wiki.fabricmc.net/_media/wiki:logo.png',
-        router: '/app_details/4',
-    },
-]);
+// 显示应用详情
+const showAppDetail = (app: App) => {
+    selectedApp.value = app;
+    // 使用marked将Markdown转换为HTML
+    renderedDescription.value = marked.parse(app.description || '暂无详细描述');
+    showDetail.value = true;
+};
+
+// 处理下载
+const handleDownload = (app: App) => {
+    if (app.download_url) {
+        window.open(app.download_url, '_blank');
+    }
+};
+
+// 组件挂载时获取数据
+onMounted(() => {
+    fetchApps();
+});
 </script>
 
 <style lang="scss">
-.softwareModule {
-    .n-grid-item {
-        margin-bottom: 20px;
-    }
-
-    .n-card {
-        width: 100%;
-    }
-
-    .n-card img {
-        border-radius: 8px;
+.n-list-item {
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+        background-color: #f5f5f5;
     }
 }
 
-.carousel-img {
+.n-thing {
     width: 100%;
-    height: 320px;
-    object-fit: cover;
-    filter: brightness(0.9);
 }
 
-/* 暗色模式图片的深色遮罩 */
-.dark-mode-overlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1;
-}
-
-.carousel-slide {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.custom-arrow {
-    display: flex;
-    position: absolute;
-    bottom: 25px;
-    right: 10px;
-}
-
-.custom-arrow button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin-right: 12px;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-width: 0;
-    border-radius: 8px;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    color: #fff;
-}
-
-.dark-arrow {
-    background-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.light-arrow {
-    background-color: rgba(0, 0, 0, 0.4) !important;
-}
-
-.custom-arrow button:hover {
-    background-color: rgba(0, 0, 0, 0.6) !important;
-}
-
-.custom-arrow button:active {
-    transform: scale(0.95);
-    transform-origin: center;
-}
-
-.custom-dots {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-}
-
-.custom-dots li {
-    display: inline-block;
-    height: 4px;
-    margin: 0 3px;
-    border-radius: 4px;
-    transition:
-        width 0.3s,
-        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-}
-
-/* 暗色模式下的 dots 样式 */
-.dark-dot {
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
-/* 亮色模式下的 dots 样式 */
-.light-dot {
-    background-color: rgba(0, 0, 0, 0.6);
-}
-
-.carousel-caption {
-    position: absolute;
-    bottom: 32px;
-    left: 20px;
-    z-index: 2;
-}
-
-.carousel-favicon {
-    width: 48px;
-    height: 48px;
-    display: inline-block;
-    margin: 0 3px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-/* 暗色模式下的 favicon 样式 */
-.dark-favicon {
-    background-color: rgba(255, 255, 255, 0.2);
+.markdown-content {
+    line-height: 1.6;
+    
+    h1, h2, h3, h4, h5, h6 {
+        margin: 16px 0 8px 0;
+        color: #333;
+    }
+    
+    p {
+        margin: 8px 0;
+        color: #666;
+    }
+    
+    ul, ol {
+        margin: 8px 0;
+        padding-left: 24px;
+    }
+    
+    li {
+        margin: 4px 0;
+    }
+    
+    code {
+        background-color: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+    }
+    
+    pre {
+        background-color: #f8f8f8;
+        padding: 12px;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 12px 0;
+        
+        code {
+            background: none;
+            padding: 0;
+        }
+    }
+    
+    blockquote {
+        border-left: 4px solid #ddd;
+        margin: 12px 0;
+        padding-left: 16px;
+        color: #666;
+        font-style: italic;
+    }
 }
 </style>

@@ -81,7 +81,7 @@
                     <template #header-extra>
                         <n-tag size="small" round type="warning"> {{ vipNodeCards.length }} 个节点 </n-tag>
                     </template>
-                    <n-grid cols="1 m:3 xl:4 2xl:5" :x-gap="12" :y-gap="12" responsive="screen">
+                    <n-grid :cols="1" :x-gap="12" :y-gap="12" responsive="screen">
                         <n-grid-item v-for="(nodeCard, index) in vipNodeCards" :key="`vip-${index}`">
                             <NodeCardComponent :node="nodeCard" @click="$emit('node-select', nodeCard)" />
                         </n-grid-item>
@@ -91,7 +91,7 @@
                     <template #header-extra>
                         <n-tag size="small" round type="info"> {{ normalNodeCards.length }} 个节点 </n-tag>
                     </template>
-                    <n-grid cols="1 m:3 xl:4 2xl:5" :x-gap="12" :y-gap="12" responsive="screen">
+                    <n-grid :cols="1" :x-gap="12" :y-gap="12" responsive="screen">
                         <n-grid-item v-for="(nodeCard, index) in normalNodeCards" :key="`normal-${index}`">
                             <NodeCardComponent :node="nodeCard" @click="$emit('node-select', nodeCard)" />
                         </n-grid-item>

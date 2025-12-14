@@ -37,7 +37,7 @@
                     </n-grid-item>
                 </n-grid>
             </n-card>
-            <n-grid style="margin-top: 24px" cols="1 m:3" responsive="screen" x-gap="15" y-gap="15">
+            <n-grid style="margin-top: 24px" :cols="1" responsive="screen" x-gap="15" y-gap="15">
                 <n-grid-item>
                     <n-card style="height: 192px">
                         <n-flex justify="space-around" size="large">

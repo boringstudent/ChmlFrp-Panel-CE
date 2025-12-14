@@ -18,7 +18,7 @@
                 description="请联系管理员提交问题并等待修复"
             />
             <div v-else>
-                <n-grid :x-gap="12" :y-gap="12" cols="1 m:3" responsive="screen">
+                <n-grid :x-gap="12" :y-gap="12" :cols="1" responsive="screen">
                     <n-grid-item>
                         <NodeInfoCard
                             :node-details="nodeDetails"

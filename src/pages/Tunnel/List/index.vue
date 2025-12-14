@@ -88,17 +88,106 @@
         :filter-region="filterRegion"
         @node-select="handleEditNodeSelect"
     />
+    <n-modal v-model:show="batchDeleteModal" :mask-closable="false">
+        <n-card
+            style="width: 600px; max-width: 90vw;"
+            title="批量删除隧道"
+            :bordered="false"
+            size="huge"
+            role="dialog"
+            aria-modal="true"
+        >
+            <template #header-extra>
+                <n-button quaternary circle @click="batchDeleteModal = false" :disabled="batchDeleting">
+                    <template #icon>
+                        <n-icon>
+                            <CloseOutline />
+                        </n-icon>
+                    </template>
+                </n-button>
+            </template>
+            <div v-if="!batchDeleting">
+                <n-alert type="warning" title="警告" style="margin-bottom: 16px;">
+                    您确定要删除选中的 {{ selectedCount }} 个隧道吗？此操作不可撤销！
+                </n-alert>
+                <n-space vertical>
+                    <div>选中的隧道：</div>
+                    <n-scrollbar style="max-height: 200px;">
+                        <n-list>
+                            <n-list-item v-for="card in getSelectedTunnelCards()" :key="card.id">
+                                <n-thing :title="card.name" :description="`ID: ${card.id} - ${card.node}`" />
+                            </n-list-item>
+                        </n-list>
+                    </n-scrollbar>
+                </n-space>
+            </div>
+            <div v-else>
+                <n-alert type="info" title="正在删除隧道" style="margin-bottom: 16px;">
+                    正在删除选中的隧道，请稍候...
+                </n-alert>
+                <n-space vertical>
+                    <n-progress
+                        type="line"
+                        :percentage="batchDeleteProgress"
+                        :indicator-placement="'inside'"
+                        :height="24"
+                        status="success"
+                    />
+                    <div style="text-align: center; color: #666; font-size: 14px;">
+                        进度：{{ batchDeleteProgress }}%
+                    </div>
+                </n-space>
+            </div>
+            <template #footer>
+                <n-space justify="end">
+                    <n-button 
+                        v-if="!batchDeleting" 
+                        @click="batchDeleteModal = false"
+                        :disabled="batchDeleting"
+                    >
+                        取消
+                    </n-button>
+                    <n-button 
+                        v-if="!batchDeleting" 
+                        type="error" 
+                        @click="confirmBatchDelete"
+                        :loading="batchDeleting"
+                    >
+                        确认删除
+                    </n-button>
+                    <n-button 
+                        v-else 
+                        type="primary" 
+                        @click="batchDeleteModal = false"
+                        :disabled="batchDeleting"
+                    >
+                        完成
+                    </n-button>
+                </n-space>
+            </template>
+        </n-card>
+    </n-modal>
     <TunnelListHeader
         :loading="loadingTunnel"
         :adding="addTheTunnelButtonShow"
+        :batch-deleting="batchDeleting"
+        :has-tunnels="!!hasTunnels"
+        :has-selected-tunnels="!!hasSelectedTunnels"
+        :selected-count="selectedCount"
+        :is-all-selected="!!isAllSelected"
         @refresh="fetchTunnelCards"
         @add="createNodes"
+        @select-all="handleSelectAll"
+        @invert-selection="handleInvertSelection"
+        @batch-delete="handleBatchDelete"
     />
     <n-grid v-if="!loadingTunnel" cols="1 m:2 l:3 xl:4 2xl:5" :x-gap="12" :y-gap="12" responsive="screen">
         <n-grid-item v-for="(card, index) in tunnelCards" :key="index">
             <TunnelCardComponent
                 :card="card"
                 :deletet-tunnel-success="deletetTunnelSuccess"
+                :checked="selectedTunnels.has(card.id)"
+                @update:checked="(checked: boolean) => handleTunnelCheckChange(card.id, checked)"
                 :on-edit="editTunnel"
                 :on-get-config="getConfigCode"
                 :on-refresh="handleRefreshTunnel"
@@ -136,6 +225,7 @@ import { storeToRefs } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 import api from '@/api';
+import { CloseOutline } from '@vicons/ionicons5';
 
 // Composables
 import { useTunnelList } from './composables/useTunnelList';
@@ -240,6 +330,125 @@ const count = ref(16);
 const handleLoad = () => {
     count.value += 1;
 };
+
+// 选中状态管理
+const selectedTunnels = ref<Set<number>>(new Set());
+
+// 全选功能（切换模式）
+const handleSelectAll = () => {
+    if (tunnelCards.value && tunnelCards.value.length > 0) {
+        // 如果已经全选，则取消全选；否则全选
+        if (selectedTunnels.value.size === tunnelCards.value.length) {
+            selectedTunnels.value = new Set();
+        } else {
+            selectedTunnels.value = new Set(tunnelCards.value.map(card => card.id));
+        }
+    }
+};
+
+// 反选功能
+const handleInvertSelection = () => {
+    if (tunnelCards.value && tunnelCards.value.length > 0) {
+        const newSelected = new Set<number>();
+        tunnelCards.value.forEach(card => {
+            if (!selectedTunnels.value.has(card.id)) {
+                newSelected.add(card.id);
+            }
+        });
+        selectedTunnels.value = newSelected;
+    }
+};
+
+// 获取选中的隧道卡片列表
+const getSelectedTunnelCards = () => {
+    if (!tunnelCards.value) return [];
+    return tunnelCards.value.filter(card => selectedTunnels.value.has(card.id));
+};
+
+// 更新单个隧道的选中状态
+const handleTunnelCheckChange = (cardId: number, checked: boolean) => {
+    if (checked) {
+        selectedTunnels.value.add(cardId);
+    } else {
+        selectedTunnels.value.delete(cardId);
+    }
+};
+
+// 批量删除处理函数
+const handleBatchDelete = () => {
+    if (!hasSelectedTunnels.value) return;
+    batchDeleteModal.value = true;
+};
+
+// 确认批量删除
+const confirmBatchDelete = async () => {
+    batchDeleting.value = true;
+    batchDeleteProgress.value = 0;
+    
+    const selectedCards = getSelectedTunnelCards();
+    const total = selectedCards.length;
+    
+    for (let i = 0; i < selectedCards.length; i++) {
+        const card = selectedCards[i];
+        try {
+            // 调用正确的删除API
+            await api.v2.tunnel.deleteTunnel(userInfo?.usertoken || '', card.id);
+            
+            // 更新进度
+            batchDeleteProgress.value = Math.round(((i + 1) / total) * 100);
+            
+            // 从选中列表中移除
+            selectedTunnels.value.delete(card.id);
+            
+            // 短暂延迟，让用户看到进度变化
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+        } catch (error) {
+            console.error(`删除隧道 ${card.name} (ID: ${card.id}) 失败:`, error);
+            message.error(`删除隧道 ${card.name} 失败`);
+        }
+    }
+    
+    // 删除完成后刷新列表
+    await fetchTunnelCards();
+    
+    // 重置状态
+    batchDeleting.value = false;
+    batchDeleteProgress.value = 100;
+    
+    message.success(`成功删除 ${total} 个隧道`);
+    
+    // 2秒后自动关闭模态框
+    setTimeout(() => {
+        batchDeleteModal.value = false;
+        batchDeleteProgress.value = 0;
+    }, 2000);
+};
+
+// 检查是否有隧道
+const hasTunnels = computed(() => {
+    return tunnelCards.value && tunnelCards.value.length > 0;
+});
+
+// 检查是否全选
+const isAllSelected = computed(() => {
+    return tunnelCards.value && tunnelCards.value.length > 0 && selectedTunnels.value.size === tunnelCards.value.length;
+});
+
+// 检查是否有选中的隧道
+const hasSelectedTunnels = computed(() => {
+    return selectedTunnels.value.size > 0;
+});
+
+// 选中的隧道数量
+const selectedCount = computed(() => {
+    return selectedTunnels.value.size;
+});
+
+// 批量删除状态
+const batchDeleting = ref(false);
+const batchDeleteProgress = ref(0);
+const batchDeleteModal = ref(false);
 
 // 隧道操作处理函数
 

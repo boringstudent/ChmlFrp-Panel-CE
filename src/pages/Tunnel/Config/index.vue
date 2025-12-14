@@ -30,7 +30,7 @@
             </n-grid-item>
         </n-grid>
         <template #footer>
-            <n-grid cols="1 m:3" item-responsive responsive="screen" :x-gap="12" :y-gap="12">
+            <n-grid :cols="1" item-responsive responsive="screen" :x-gap="12" :y-gap="12">
                 <n-grid-item span="1 m:2">
                     <n-card title="Frpc.ini" style="min-height: 334px">
                         <template #header-extra>

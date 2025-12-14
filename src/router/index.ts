@@ -123,11 +123,11 @@ const routes: Array<RouteRecordRaw> = [
                 name: '应用市场',
                 component: () => import('@/pages/Expand/AppMarketplace/index.vue'),
                 meta: {
-                    title: 'ChmlFrp-CE应用市场 - ChmlFrp-CE',
+                    title: '第三方应用市场 - ChmlFrp-CE',
                     keywords:
-                        'ChmlFrp-CE, 应用市场, 第三方应用市场, ChmlFrp-CE应用市场, ChmlFrp-CE软件, frp, 免费frp, 映射',
+                        'ChmlFrp-CE, 第三方应用市场, 第三方启动器, 第三方工具, frp, 免费frp, 映射',
                     description:
-                        '这里包含了所有ChmlFrp-CE的官方、第三方应用，包含接入了ChmlFrp-CE的MC开服器、ChmlFrp-CE便携启动器等。',
+                        '这里汇集了各种优秀的第三方启动器和工具，为ChmlFrp用户提供更多选择。如果您也想让您的软件出现在这里，请邮件联系 boring_student@qq.com',
                     requiresAuth: true,
                 },
             },
